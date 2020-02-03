@@ -36,7 +36,8 @@ router.post('/rate', (req, res) => {
 });
 
 router.post('/generate', (req, res) => {
-    let output = [];
+    let alike = []; //stores the users with matched ratings
+    let output = []; //stores the recomended artefact(s)
     Artefact.find({}, (err, result) => {
         if(err) {
             res.json(err)
@@ -45,28 +46,35 @@ router.post('/generate', (req, res) => {
             const mainUser = req.body.userID
             for(let x in result){
                 
-                //output.push(result[x].ratings)
+                //alike.push(result[x].ratings)
                 
                 let ratingsMap = result[x].ratings
                 //console.log(ratingsMap.get(`${mainUser}`))
-                if(ratingsMap.get(mainUser)){
+                if(ratingsMap.has(mainUser)){
                     const mainUserRating = ratingsMap.get(`${mainUser}`);
-                    //console.log(mainUser)
-                    //console.log(mainUserRating)
-                    const iterator1 = ratingsMap[Symbol.iterator]();
 
-                    for (let r8ting in iterator1){
-                        console.log(r8ting)
-                        if (r8ting[1] == mainUserRating){
-                            output.push(r8ting)
+                    //console.log(ratingsMap)
+                    ratingsMap.forEach((value, key) => {
+                        if (value == mainUserRating && key != mainUser){
+                            alike.push([key, value])
+                        }
+                    });
+                }   
+            }
+
+            for(let x in result){
+                
+                let ratingsMap = result[x].ratings
+                //console.log(ratingsMap.get(`${mainUser}`))
+                if (!(ratingsMap.has(mainUser))){
+                    for (let ap in alike){
+                        if (alike[ap][1] == ratingsMap.get(alike[ap][0])){
+                            output.push(result[x].name)
                         }
                     }
-                    console.log("---------------------")
                 }
-
-                
-                
             }
+
             res.json(output)
         }
     })

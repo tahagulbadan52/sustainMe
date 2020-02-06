@@ -17,6 +17,7 @@ router.post('/add', (req, res) => {
     newArtefact.save()
         .then(item => res.json(item))
         .catch(err => console.log(err))
+
 });
 
 router.post('/rate', (req, res) => {
@@ -47,7 +48,6 @@ router.post('/generate', (req, res) => {
             for(let x in result){
                 
                 //alike.push(result[x].ratings)
-                
                 let ratingsMap = result[x].ratings
                 //console.log(ratingsMap.get(`${mainUser}`))
                 if(ratingsMap.has(mainUser)){
@@ -75,77 +75,12 @@ router.post('/generate', (req, res) => {
                 }
             }
 
-            res.json(output)
+            let uniqueOutput = (output) => output.filter((v,i) => output.indexOf(v) === i)
+            res.json(uniqueOutput(output));
+            //res.json(output)
         }
     })
 });
-
-/*
-//adding a new item
-router.post('/:userId', (req, res) => {
-    User.findOne({_id: req.params.userId}).then( foundUser => {
-        const newPost = new Item({
-            name: req.body.name,
-            category: req.body.category,
-            warrantyPeriod: req.body.warrantyPeriod,
-            sellerName: req.body.sellerName,
-            sellerEmail: req.body.sellerEmail,
-            amount: req.body.amount,
-            location: req.body.location,
-            user: foundUser
-        })
-        newPost
-        .save()
-        .then(item => res.json(item))
-        .catch(err => console.log(err))
-    })
-    
- });
-
- //getting all itme of the user
-router.get('/:userId', (req, res) => {
-    User.findOne({_id: req.params.userId}).then( foundUser => {
-        
-        Item.find({user : foundUser})
-        .then(items => res.json({"items" : items}))
-        .catch(err => console.log(err))
-    })
-    
-});
-
-//getting one item by id
-router.get('/one/:itemId', (req, res) => {
-    Item.findOne({_id: req.params.itemId})
-        .then( item => res.json(item))
-        .catch(err => console.log(err))
-});
-
-//delete an item
-router.delete('/:itemId', (req, res) => {
-    Item.remove({_id : req.params.itemId})
-        .then(item => res.json(item))
-        .catch(err => console.log(err))
-    }
-);
-
-//update an item
-router.patch('/:itemId', (req, res) => {
-    Item.update(
-                    {_id : req.params.itemId}, 
-                    {$set: 
-                        {name: req.body.name,
-                        category: req.body.category,
-                        warrantyPeriod: req.body.warrantyPeriod,
-                        sellerName: req.body.sellerName,
-                        sellerEmail: req.body.sellerEmail,
-                        amount: req.body.amount}
-                    }
-                )
-        .then(item => res.json(item))
-        .catch(err => console.log(err))
-    }
-);
-*/
 
 
 module.exports = router;

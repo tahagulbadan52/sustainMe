@@ -14,6 +14,7 @@ router.post('/add', (req, res) => {
             materials: req.body.materials,
             location: req.body.location,
             tips: req.body.tips,
+            image: req.body.image,
             ratings: {}
         }
     )

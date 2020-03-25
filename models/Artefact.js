@@ -26,6 +26,10 @@ const ArtefactSchema = new Schema({
     ratings: {
         type: Map,
         of: Number
+    },
+    image: {
+        type: String,
+        required: true
     }
 });
 

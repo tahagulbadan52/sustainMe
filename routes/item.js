@@ -23,7 +23,7 @@ router.post('/add', (req, res) => {
 
 });
 
-router.post('/getAll', (req, res) => {
+router.get('/getAll', (req, res) => {
     Artefact.find()
         .then(artefacts => {
             if(artefacts){

@@ -7,6 +7,22 @@ const ArtefactSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
+    materials: {
+        type: String,
+        required: true
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    tips: {
+        type: String,
+        required: true
+    },
     ratings: {
         type: Map,
         of: Number
